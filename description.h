@@ -26,12 +26,12 @@ const char* const fixed_feast_date[] = {
 };
 
 const char* const easter_related_name[] = {
-  "Boží hod velikonoční",
   "Masopustní neděle",
   "Popeleční středa",
   "Květná neděle",
   "Zelený čtvrtek",
   "Velký pátek",
+  "Boží hod velikonoční",
   "Nanebevstoupení Páně",
   "Neděle po nanebevstoupení",
   "Hod. sv. Ducha",
@@ -40,15 +40,24 @@ const char* const easter_related_name[] = {
 
 const time_t easter_related_timedelta[] =
 {
-  0,
   -7 * SECONDS_IN_WEEK,
   -46 * SECONDS_IN_DAY,
   -SECONDS_IN_WEEK,
   -3 * SECONDS_IN_DAY,
   -2 * SECONDS_IN_DAY,
+  0,
   39 * SECONDS_IN_DAY,
   6 * SECONDS_IN_WEEK,
   7 * SECONDS_IN_WEEK,
   8 * SECONDS_IN_WEEK
+};
+
+char * starts_tide[] =
+{
+  fixed_feast_name[0],
+  fixed_feast_name[3],
+  easter_related_name[1],
+  easter_related_name[5],
+easter_related_name[9]
 };
 

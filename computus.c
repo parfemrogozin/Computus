@@ -5,13 +5,6 @@
 #include <string.h>
 #include "description.h"
 
-
-typedef struct feast
-{
-  struct tm date;
-  char description[37];
-} Feast;
-
 static inline void set_full_tm(struct tm * date)
 {
   time_t t = mktime(date);
@@ -90,6 +83,8 @@ struct tm get_first_advent_sunday (int year)
 
   return  first_advent_sunday;
 }
+
+
 
 int main(int argc, char **argv)
 {
