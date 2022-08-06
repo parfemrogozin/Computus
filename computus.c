@@ -3,15 +3,14 @@
 #include <time.h>
 #include <math.h>
 #include <string.h>
+#include "description.h"
 
-const int SECONDS_IN_WEEK = 604800;
 
 typedef struct feast
 {
-  int tide;
-  time_t day_timestamp;
+  struct tm date;
   char description[37];
-}
+} Feast;
 
 static inline void set_full_tm(struct tm * date)
 {
@@ -59,6 +58,8 @@ struct tm get_easter_date(int year)
   }
 
   set_full_tm(&easter_date);
+  time_t t = mktime(&easter_date);
+  printf("%ld\n", t);
   return easter_date;
 }
 
@@ -104,10 +105,11 @@ int main(int argc, char **argv)
   {
     year = atoi(argv[1]);
   }
-  struct tm easter_date = get_easter_date(year);
 
-  /*strftime(buffer, 11, "%Y-%m-%d", &easter_date);
-  printf("Easter date: %s\n", buffer );*/
+
+  struct tm easter_date = get_easter_date(year);
+  strftime(buffer, 11, "%Y-%m-%d", &easter_date);
+  printf("Easter date: %s\n", buffer );
 
 
 
