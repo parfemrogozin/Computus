@@ -1,7 +1,32 @@
 const int SECONDS_IN_DAY = 86400;
 const int SECONDS_IN_WEEK = SECONDS_IN_DAY * 7;
 
+typedef struct feast
+{
+  char description[29]; //29
+  unsigned char month; //1
+  unsigned char day; //1
+  bool starts_tide; //1
+  time_t easter_delta; //8
+}Feast;
 
+Feast feast_list[14] =
+{
+  { "Boží hod vánoční", 12, 25, true, 0},
+  { "Mučedníka Štěpána", 12, 26,false, 0},
+  { "Epifanie", 1, 6,  true, 0 },
+  { "Masopustní neděle", 0, 0, false,  -7 * SECONDS_IN_WEEK },
+  { "Popeleční středa", 0, 0, true, -46 * SECONDS_IN_DAY },
+  { "Květná neděle", 0, 0, false, -1 * SECONDS_IN_WEEK },
+  { "Zelený čtvrtek", 0, 0, false, -3 * SECONDS_IN_DAY },
+  { "Velký pátek", 0, 0, false, -2 * SECONDS_IN_DAY },
+  { "Boží hod velikonoční", 0, 0, true,  0 },
+  { "Nanebevstoupení Páně", 0, 0, false, 39 * SECONDS_IN_DAY }, /* maybe true and delete next */
+  { "Neděle po nanebevstoupení", 0, 0, false, 6 * SECONDS_IN_WEEK },
+  { "Hod. sv. Ducha", 0, 0, false, 7 * SECONDS_IN_WEEK },
+  { "Hod sv. Trojice", 0, 0, true, 8 * SECONDS_IN_WEEK },
+  { "poslední neděle v roce", 0, 0, true, 0 }
+};
 
 char tides[][13] = {
   "adventní",
@@ -11,55 +36,3 @@ char tides[][13] = {
   "velikonoční",
   "po Trojici",
   };
-
-char fixed_feast_date[][6] = {
-  "12-25",
-  "12-26",
-  "01-06"
-};
-
-char feast_name[][27] = {
-  "Boží hod vánoční", //0 t f0
-  "Mučedníka Štěpána", //1 f1
-  "Epifanie", //2 t f3
-  "Masopustní neděle", //3 e0
-  "Popeleční středa", //4 t e1
-  "Květná neděle", //5 e2
-  "Zelený čtvrtek", //6 e3
-  "Velký pátek", //7  e4
-  "Boží hod velikonoční", //8 t e5
-  "Nanebevstoupení Páně", //9 e6
-  "Neděle po nanebevstoupení", //10 e7
-  "Hod. sv. Ducha", //11 e8
-  "Hod sv. Trojice" //12 t e9
-};
-
-const time_t easter_related_timedelta[] =
-{
-  -7 * SECONDS_IN_WEEK,
-  -46 * SECONDS_IN_DAY,
-  -1 * SECONDS_IN_WEEK,
-  -3 * SECONDS_IN_DAY,
-  -2 * SECONDS_IN_DAY,
-  0,
-  39 * SECONDS_IN_DAY,
-  6 * SECONDS_IN_WEEK,
-  7 * SECONDS_IN_WEEK,
-  8 * SECONDS_IN_WEEK
-};
-
-char * starts_tide[] =
-{
-  feast_name[0],
-  feast_name[2],
-  feast_name[4],
-  feast_name[8],
-  feast_name[12]
-};
-
-char * is_fixed[] =
-{
-  feast_name[0],
-  feast_name[1],
-  feast_name[2],
-};

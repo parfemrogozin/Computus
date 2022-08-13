@@ -3,18 +3,33 @@
 #include <time.h>
 #include <math.h>
 #include <string.h>
+#include <stdbool.h>
 #include "description.h"
 
-static inline void set_full_tm(struct tm * date)
+typedef struct service
+{
+  struct tm date;
+  char * description;
+} Service;
+
+
+
+void set_full_tm(struct tm * date)
 {
   time_t t = mktime(date);
-  memset(date, 0, sizeof(*date));
   *date = *localtime(&t);
+}
+
+void print_date(struct tm date)
+{
+  char date_buffer[11];
+  strftime(date_buffer, 11, "%Y-%m-%d", &date);
+  printf("Test: %s\n\n", date_buffer );
 }
 
 struct tm get_easter_date(int year)
 {
-  struct tm easter_date;
+  struct tm easter_date = {0};
     easter_date.tm_year = year - 1900; /* The number of years since 1900   */
     easter_date.tm_mon = 2; /* month, range 0 to 11 */
     easter_date.tm_mday = 22; /* day of the month, range 1 to 31  */
@@ -49,18 +64,15 @@ struct tm get_easter_date(int year)
   {
     easter_date.tm_mday = mday;
   }
-
   set_full_tm(&easter_date);
-  time_t t = mktime(&easter_date);
-  printf("%ld\n", t);
   return easter_date;
 }
 
 struct tm get_first_advent_sunday (int year)
 {
   time_t t;
-  struct tm first_advent_sunday;
-  struct tm last_advent_sunday;
+  struct tm first_advent_sunday = {0};
+  struct tm last_advent_sunday = {0};
     last_advent_sunday.tm_year = year - 1900 - 1; /* The number of years since 1900   */
     last_advent_sunday.tm_mon = 11; /* month, range 0 to 11 */
     last_advent_sunday.tm_mday = 25; /* day of the month, range 1 to 31  */
@@ -84,6 +96,20 @@ struct tm get_first_advent_sunday (int year)
   return  first_advent_sunday;
 }
 
+struct tm set_date_from_fixed(char monthday[], int year)
+{
+  struct tm full_date = {0};
+  char * month = strtok(monthday, "-");
+  char * day = strtok(NULL, "-");
+
+  full_date.tm_year = year - 1900;
+  full_date.tm_mon = atoi(month) - 1;
+  full_date.tm_mday = atoi(day);
+
+  set_full_tm(&full_date);
+
+  return full_date;
+}
 
 
 int main(int argc, char **argv)
@@ -91,7 +117,7 @@ int main(int argc, char **argv)
   int year;
   time_t t = time(NULL);
   struct tm current_time = *localtime(&t);
-  char buffer[11];
+
   if (argc < 2)
   {
     year = current_time.tm_year + 1900;
@@ -101,13 +127,15 @@ int main(int argc, char **argv)
     year = atoi(argv[1]);
   }
 
+  printf("char: %ld\n", sizeof(char));
+  printf("unsigned char: %ld\n", sizeof(unsigned char));
+  printf("time_t: %ld\n", sizeof(time_t));
+  printf("bool: %ld\n", sizeof(bool));
+  printf("______________\n");
+  printf("Feast: %ld\n", sizeof(Feast));
 
-  struct tm easter_date = get_easter_date(year);
-  strftime(buffer, 11, "%Y-%m-%d", &easter_date);
-  printf("Easter date: %s\n", buffer );
-
-
-
+  struct tm date = get_easter_date(year);
+  print_date(date);
 
   return 0;
 }
