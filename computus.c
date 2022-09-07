@@ -132,7 +132,7 @@ Service get_regular(char * tide, time_t * time, int si)
 
 int main(int argc, char **argv)
 {
-  int year;
+  int year, start_year;
   int i = 0;
   int ti = 0;
   int si = 1;
@@ -153,7 +153,9 @@ int main(int argc, char **argv)
     year = atoi(argv[1]);
   }
 
-  last_sunday_prev = get_last_sunday(year - 1);
+
+  start_year = year -1;
+  last_sunday_prev = get_last_sunday(start_year);
   cur_sunday_t = mktime(&last_sunday_prev);
   cur_sunday_t += SECONDS_IN_WEEK;
   cur_sunday = *localtime(&cur_sunday_t);
@@ -172,6 +174,10 @@ int main(int argc, char **argv)
       cur_sunday_t += SECONDS_IN_WEEK;
     }
     next_service = get_service(&feast_list[i], year);
+    if (year == start_year && next_service.date.tm_mon == 0 && next_service.date.tm_mday == 6)
+    {
+      next_service.date.tm_year++;
+    }
     next_t = mktime(&next_service.date);
 
 
