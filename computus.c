@@ -144,6 +144,8 @@ int main(int argc, char **argv)
   cur_sunday_t += SECONDS_IN_WEEK;
   cur_sunday = *localtime(&cur_sunday_t);
   last_sunday = get_last_sunday(year);
+  feast_list[13].day = last_sunday.tm_mday;
+  feast_list[13].month = last_sunday.tm_mon;
   end_t = mktime(&last_sunday);
 
 
@@ -164,12 +166,9 @@ int main(int argc, char **argv)
     {
       cur_sunday_t += SECONDS_IN_WEEK;
     }
+    print_service(next_service);
+    i++;
 
-    if (i+1 < MAIN_FEAST_COUNT)
-    {
-      print_service(next_service);
-      i++;
-    }
   } while (cur_sunday_t + SECONDS_IN_WEEK < end_t);
 
   return 0;
