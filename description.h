@@ -1,4 +1,4 @@
-#define MAIN_FEAST_COUNT 14
+#define MAIN_FEAST_COUNT 13
 const int SECONDS_IN_DAY = 86400;
 const int SECONDS_IN_WEEK = SECONDS_IN_DAY * 7;
 
@@ -26,8 +26,7 @@ Feast feast_list[MAIN_FEAST_COUNT] =
   { "Nanebevstoupení Páně", 0, 0, false, 39 * SECONDS_IN_DAY }, /* maybe true and delete next */
   { "Neděle po nanebevstoupení", 0, 0, false, 6 * SECONDS_IN_WEEK },
   { "Hod. sv. Ducha", 0, 0, false, 7 * SECONDS_IN_WEEK },
-  { "Hod sv. Trojice", 0, 0, true, 8 * SECONDS_IN_WEEK },
-  { "poslední neděle v roce", 0, 0, true, 0 }
+  { "Hod sv. Trojice", 0, 0, true, 8 * SECONDS_IN_WEEK }
 };
 
 char tides[][13] =

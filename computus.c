@@ -98,6 +98,8 @@ struct tm get_last_sunday (int year)
 Service get_service(Feast * prototype, int year)
 {
   Service date_and_desc = {0};
+  struct tm easter_relative;
+  time_t easter_relative_t;
   date_and_desc.description = prototype->description;
   if (prototype->day > 0)
   {
@@ -107,7 +109,10 @@ Service get_service(Feast * prototype, int year)
   }
   else
   {
-    exit(-1);
+    easter_relative = get_easter_date(year);
+    easter_relative_t = mktime(&easter_relative);
+    easter_relative_t +=  prototype->easter_delta;
+    date_and_desc.date =  *localtime(&easter_relative_t);
   }
 
   set_full_tm(&date_and_desc.date);
@@ -160,8 +165,11 @@ int main(int argc, char **argv)
       cur_sunday_t += SECONDS_IN_WEEK;
     }
 
-  print_service(next_service);
-  i++;
+    if (i+1 < MAIN_FEAST_COUNT)
+    {
+      print_service(next_service);
+      i++;
+    }
   } while (cur_sunday_t + SECONDS_IN_WEEK < end_t);
 
   return 0;
