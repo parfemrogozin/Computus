@@ -167,8 +167,13 @@ int main(int argc, char **argv)
   {
     cur_sunday = *localtime(&cur_sunday_t);
     year = cur_sunday.tm_year + 1900;
+    if (cur_sunday.tm_mday == next_service.date.tm_mday && cur_sunday.tm_mon == next_service.date.tm_mon)
+    {
+      cur_sunday_t += SECONDS_IN_WEEK;
+    }
     next_service = get_service(&feast_list[i], year);
     next_t = mktime(&next_service.date);
+
 
     while ( cur_sunday_t < next_t )
     {
@@ -178,10 +183,7 @@ int main(int argc, char **argv)
       cur_sunday_t += SECONDS_IN_WEEK;
     }
 
-    if (next_service.date.tm_wday == 0)
-    {
-      cur_sunday_t += SECONDS_IN_WEEK;
-    }
+
     print_service(next_service);
     if ( feast_list[i].starts_tide )
     {
