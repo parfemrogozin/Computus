@@ -9,7 +9,7 @@
 typedef struct service
 {
   struct tm date;
-  char * description;
+  char description[29];
 } Service;
 
 
@@ -100,7 +100,7 @@ Service get_service(Feast * prototype, int year)
   Service date_and_desc = {0};
   struct tm easter_relative;
   time_t easter_relative_t;
-  date_and_desc.description = prototype->description;
+  strncpy(date_and_desc.description, prototype->description, 29);
   if (prototype->day > 0)
   {
     date_and_desc.date.tm_mon = prototype->month;
@@ -122,8 +122,11 @@ Service get_service(Feast * prototype, int year)
 Service get_regular(char * tide, time_t * time, int si)
 {
   Service date_and_desc = {0};
+  char buffer[12];
+  sprintf(buffer, "%d. neděle ", si);
   date_and_desc.date =  *localtime(time);
-  date_and_desc.description = tide;
+  strncat (date_and_desc.description, buffer, 12);
+  strncat (date_and_desc.description, tide, 14);
   return date_and_desc;
 }
 

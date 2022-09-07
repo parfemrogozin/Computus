@@ -25,7 +25,7 @@ Feast feast_list[MAIN_FEAST_COUNT] =
   { "Boží hod velikonoční", 0, 0, true,  0 },
   { "Nanebevstoupení Páně", 0, 0, false, 39 * SECONDS_IN_DAY }, /* maybe true and delete next */
   { "Neděle po nanebevstoupení", 0, 0, false, 6 * SECONDS_IN_WEEK },
-  { "Hod. sv. Ducha", 0, 0, false, 7 * SECONDS_IN_WEEK },
+  { "Hod sv. Ducha", 0, 0, false, 7 * SECONDS_IN_WEEK },
   { "Hod sv. Trojice", 0, 0, true, 8 * SECONDS_IN_WEEK },
   { "poslední neděle v roce", 0, 0, false, 0 }
 };
