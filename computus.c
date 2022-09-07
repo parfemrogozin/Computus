@@ -119,15 +119,26 @@ Service get_service(Feast * prototype, int year)
   return date_and_desc;
 }
 
+Service get_regular(char * tide, time_t * time, int si)
+{
+  Service date_and_desc = {0};
+  date_and_desc.date =  *localtime(time);
+  date_and_desc.description = tide;
+  return date_and_desc;
+}
+
 int main(int argc, char **argv)
 {
   int year;
   int i = 0;
+  int ti = 0;
+  int si = 1;
   time_t t = time(NULL);
   struct tm current_time = *localtime(&t);
 
   struct tm cur_sunday, last_sunday, last_sunday_prev = {0};
   Service next_service = {0};
+  Service between_service = {0};
   time_t cur_sunday_t, next_t, end_t;
 
   if (argc < 2)
@@ -158,7 +169,9 @@ int main(int argc, char **argv)
 
     while ( cur_sunday_t < next_t )
     {
-      printf("%s\n", ctime(&cur_sunday_t));
+      between_service = get_regular(tides[ti], &cur_sunday_t, si);
+      print_service(between_service);
+      si++;
       cur_sunday_t += SECONDS_IN_WEEK;
     }
 
@@ -167,6 +180,11 @@ int main(int argc, char **argv)
       cur_sunday_t += SECONDS_IN_WEEK;
     }
     print_service(next_service);
+    if ( feast_list[i].starts_tide )
+    {
+      ti++;
+      si = 1;
+    }
     i++;
 
   } while (cur_sunday_t + SECONDS_IN_WEEK < end_t);

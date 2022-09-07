@@ -30,12 +30,12 @@ Feast feast_list[MAIN_FEAST_COUNT] =
   { "poslední neděle v roce", 0, 0, false, 0 }
 };
 
-char tides[][13] =
+char tides[][14] =
 {
   "adventní",
   "vánoční",
-  "po Epfanii",
+  "po Epifanii",
   "postní",
   "velikonoční",
-  "po Trojici",
+  "po Trojici"
 };
