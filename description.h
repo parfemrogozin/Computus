@@ -1,5 +1,7 @@
+#define MAIN_FEAST_COUNT 14
 const int SECONDS_IN_DAY = 86400;
 const int SECONDS_IN_WEEK = SECONDS_IN_DAY * 7;
+
 
 typedef struct feast
 {
@@ -10,11 +12,11 @@ typedef struct feast
   time_t easter_delta; //8
 }Feast;
 
-Feast feast_list[14] =
+Feast feast_list[MAIN_FEAST_COUNT] =
 {
-  { "Boží hod vánoční", 12, 25, true, 0},
-  { "Mučedníka Štěpána", 12, 26,false, 0},
-  { "Epifanie", 1, 6,  true, 0 },
+  { "Boží hod vánoční", 11, 25, true, 0},
+  { "Mučedníka Štěpána", 11, 26,false, 0},
+  { "Epifanie", 0, 6,  true, 0 },
   { "Masopustní neděle", 0, 0, false,  -7 * SECONDS_IN_WEEK },
   { "Popeleční středa", 0, 0, true, -46 * SECONDS_IN_DAY },
   { "Květná neděle", 0, 0, false, -1 * SECONDS_IN_WEEK },
@@ -28,11 +30,12 @@ Feast feast_list[14] =
   { "poslední neděle v roce", 0, 0, true, 0 }
 };
 
-char tides[][13] = {
+char tides[][13] =
+{
   "adventní",
   "vánoční",
   "po Epfanii",
   "postní",
   "velikonoční",
   "po Trojici",
-  };
+};

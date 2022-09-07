@@ -13,18 +13,17 @@ typedef struct service
 } Service;
 
 
-
 void set_full_tm(struct tm * date)
 {
   time_t t = mktime(date);
   *date = *localtime(&t);
 }
 
-void print_date(struct tm date)
+void print_service(Service line)
 {
   char date_buffer[11];
-  strftime(date_buffer, 11, "%Y-%m-%d", &date);
-  printf("Test: %s\n\n", date_buffer );
+  strftime(date_buffer, 11, "%Y-%m-%d", &line.date);
+  printf("%s %s\n\n", date_buffer, line.description);
 }
 
 struct tm get_easter_date(int year)
@@ -68,12 +67,12 @@ struct tm get_easter_date(int year)
   return easter_date;
 }
 
-struct tm get_first_advent_sunday (int year)
+struct tm get_last_sunday (int year)
 {
   time_t t;
-  struct tm first_advent_sunday = {0};
+  struct tm last_sunday = {0};
   struct tm last_advent_sunday = {0};
-    last_advent_sunday.tm_year = year - 1900 - 1; /* The number of years since 1900   */
+    last_advent_sunday.tm_year = year - 1900; /* The number of years since 1900   */
     last_advent_sunday.tm_mon = 11; /* month, range 0 to 11 */
     last_advent_sunday.tm_mday = 25; /* day of the month, range 1 to 31  */
 
@@ -89,34 +88,42 @@ struct tm get_first_advent_sunday (int year)
   }
 
   t = mktime(&last_advent_sunday);
-  t -= SECONDS_IN_WEEK * 3;
-  first_advent_sunday = *localtime(&t);
+  t -= SECONDS_IN_WEEK * 4;
+  last_sunday = *localtime(&t);
 
 
-  return  first_advent_sunday;
+  return  last_sunday;
 }
 
-struct tm set_date_from_fixed(char monthday[], int year)
+Service get_service(Feast * prototype, int year)
 {
-  struct tm full_date = {0};
-  char * month = strtok(monthday, "-");
-  char * day = strtok(NULL, "-");
+  Service date_and_desc = {0};
+  date_and_desc.description = prototype->description;
+  if (prototype->day > 0)
+  {
+    date_and_desc.date.tm_mon = prototype->month;
+    date_and_desc.date.tm_mday = prototype->day;
+    date_and_desc.date.tm_year = year-1900;
+  }
+  else
+  {
+    exit(-1);
+  }
 
-  full_date.tm_year = year - 1900;
-  full_date.tm_mon = atoi(month) - 1;
-  full_date.tm_mday = atoi(day);
-
-  set_full_tm(&full_date);
-
-  return full_date;
+  set_full_tm(&date_and_desc.date);
+  return date_and_desc;
 }
-
 
 int main(int argc, char **argv)
 {
   int year;
+  int i = 0;
   time_t t = time(NULL);
   struct tm current_time = *localtime(&t);
+
+  struct tm cur_sunday, last_sunday, last_sunday_prev = {0};
+  Service next_service = {0};
+  time_t cur_sunday_t, next_t, end_t;
 
   if (argc < 2)
   {
@@ -127,15 +134,35 @@ int main(int argc, char **argv)
     year = atoi(argv[1]);
   }
 
-  printf("char: %ld\n", sizeof(char));
-  printf("unsigned char: %ld\n", sizeof(unsigned char));
-  printf("time_t: %ld\n", sizeof(time_t));
-  printf("bool: %ld\n", sizeof(bool));
-  printf("______________\n");
-  printf("Feast: %ld\n", sizeof(Feast));
+  last_sunday_prev = get_last_sunday(year - 1);
+  cur_sunday_t = mktime(&last_sunday_prev);
+  cur_sunday_t += SECONDS_IN_WEEK;
+  cur_sunday = *localtime(&cur_sunday_t);
+  last_sunday = get_last_sunday(year);
+  end_t = mktime(&last_sunday);
 
-  struct tm date = get_easter_date(year);
-  print_date(date);
+
+  do
+  {
+    cur_sunday = *localtime(&cur_sunday_t);
+    year = cur_sunday.tm_year + 1900;
+    next_service = get_service(&feast_list[i], year);
+    next_t = mktime(&next_service.date);
+
+    while ( cur_sunday_t < next_t )
+    {
+      printf("%s\n", ctime(&cur_sunday_t));
+      cur_sunday_t += SECONDS_IN_WEEK;
+    }
+
+    if (next_service.date.tm_wday == 0)
+    {
+      cur_sunday_t += SECONDS_IN_WEEK;
+    }
+
+  print_service(next_service);
+  i++;
+  } while (cur_sunday_t + SECONDS_IN_WEEK < end_t);
 
   return 0;
 }
