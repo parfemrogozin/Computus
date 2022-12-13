@@ -1,2 +1,2 @@
 # Computus
-Church year claculator
+Church year calculator
