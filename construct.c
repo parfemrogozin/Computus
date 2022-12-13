@@ -1,8 +1,14 @@
 #include <time.h>
 #include <string.h>
 #include <assert.h>
+#include <stdio.h>
 
+
+#include "easter.h"
 #include "construct.h"
+
+extern Feast feast_list[];
+extern char tides[][14];
 
 Service get_service(Feast * prototype, int year)
 {
@@ -85,7 +91,6 @@ int make_calendar(Service * calendar, int year)
       between_service = get_regular(tides[ti], &cur_sunday_t, si);
       calendar[day_index] = between_service;
       day_index++;
-      printf("%d\n", day_index);
       si++;
       cur_sunday_t += SECONDS_IN_WEEK;
     }
@@ -93,7 +98,6 @@ int make_calendar(Service * calendar, int year)
 
     calendar[day_index] = next_service;
     day_index++;
-    printf("%d\n", day_index);
     if ( feast_list[i].starts_tide )
     {
       ti++;

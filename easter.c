@@ -1,5 +1,8 @@
 #include <time.h>
 #include <math.h>
+
+#include "service.h"
+#include "description.h"
 #include "easter.h"
 
 struct tm get_easter_date(int year)

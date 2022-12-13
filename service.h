@@ -1,6 +1,8 @@
 #ifndef SERVICE_H
 #define SERVICE_H
 
+#include <time.h>
+
 
 typedef struct service
 {
