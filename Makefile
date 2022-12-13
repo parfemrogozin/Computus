@@ -1,25 +1,27 @@
 CC = gcc
-CFLAGS = -std=gnu18 -pedantic -Wall -Wextra -march=native -Os -s
-CFLAGS_DEBUG = -std=gnu18 -pedantic -Wall -Wextra -march=native -Os -g
+CFLAGS = -std=gnu18 -pedantic -Wall -Wextra
 LDLIBS = -lm
-NAME = computus
+SRCS = $(wildcard *.c)
+EXECUTABLE = computus
 
 ifeq ($(PREFIX),)
 	PREFIX := $$HOME
 endif
 
-$(NAME): $(NAME).c
-	$(CC) $(CFLAGS) $(LDLIBS) -o $@ $^
+all: CFLAGS += -g
+all: $(SRCS)
+	$(CC) -o $(EXECUTABLE) $(CFLAGS) $(LDLIBS) $^
 
-debug: $(NAME).c
-	$(CC) $(CFLAGS_DEBUG) $(LDLIBS) -o $(NAME) $^
+release: CFLAGS += -march=native -Os -s
+release: $(SRCS)
+	$(CC) -o $(EXECUTABLE) $(CFLAGS) $(LDLIBS) $^
 
 clean:
-	rm -f $(NAME)
+	rm -f $(EXECUTABLE)
 
 install:
 	install -d $(PREFIX)/.local/bin
-	install $(NAME) $(PREFIX)/.local/bin
+	install $(EXECUTABLE) $(PREFIX)/.local/bin
 
 uninstall:
-	$(RM) $(PREFIX)/.local/bin/$(NAME)
+	$(RM) $(PREFIX)/.local/bin/$(EXECUTABLE)

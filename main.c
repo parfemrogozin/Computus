@@ -1,13 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <math.h>
-#include <string.h>
-#include <stdbool.h>
-#include <assert.h>
-
-#include "description.h"
-
+#include "easter.h"
+#include "service.h"
+#include "construct.h"
 
 int main(int argc, char **argv)
 {

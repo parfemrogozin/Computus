@@ -1,3 +1,6 @@
+#ifndef DESC_H
+#define DESC_H
+
 #define MAIN_FEAST_COUNT 14
 const int SECONDS_IN_DAY = 86400;
 const int SECONDS_IN_WEEK = SECONDS_IN_DAY * 7;
@@ -39,3 +42,5 @@ char tides[][14] =
   "velikonoční",
   "po Trojici"
 };
+
+#endif
