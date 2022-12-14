@@ -12,7 +12,7 @@ all: CFLAGS += -g
 all: $(SRCS)
 	$(CC) -o $(EXECUTABLE) $(CFLAGS) $(LDLIBS) $^
 
-release: CFLAGS += -march=native -Os -s
+release: CFLAGS += -march=native -Oz -s
 release: $(SRCS)
 	$(CC) -o $(EXECUTABLE) $(CFLAGS) $(LDLIBS) $^
 

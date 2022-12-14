@@ -61,7 +61,7 @@ int main(int argc, char **argv)
   {
     for (int d = 0; d < day_index; d++)
     {
-      print_service(calendar[d]);
+      print_service(calendar[d], "%Y-%m-%d");
     }
   }
   return 0;

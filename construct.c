@@ -47,6 +47,7 @@ Service get_regular(char * tide, time_t * time, int si)
 
 int make_calendar(Service * calendar, int year)
 {
+  const int service_hour = 9;
   int start_year;
   int i = 0;
   int ti = 0;
@@ -89,13 +90,14 @@ int make_calendar(Service * calendar, int year)
     while ( cur_sunday_t < next_t )
     {
       between_service = get_regular(tides[ti], &cur_sunday_t, si);
+      between_service.date.tm_hour = service_hour;
       calendar[day_index] = between_service;
       day_index++;
       si++;
       cur_sunday_t += SECONDS_IN_WEEK;
     }
 
-
+    next_service.date.tm_hour = service_hour;
     calendar[day_index] = next_service;
     day_index++;
     if ( feast_list[i].starts_tide )
@@ -119,7 +121,7 @@ void find_month(Service * calendar, int mon)
   {
     if (calendar[day_index].date.tm_mon == mon)
     {
-      print_service(calendar[day_index]);
+      print_service(calendar[day_index], "%-d.%-m. %H:%M");
     }
   }
 }

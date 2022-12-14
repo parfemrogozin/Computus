@@ -11,5 +11,5 @@ typedef struct service
 } Service;
 
 void set_full_tm(struct tm * date);
-void print_service(Service line);
+void print_service(Service line, const char * format);
 #endif

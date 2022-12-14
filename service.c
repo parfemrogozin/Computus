@@ -9,9 +9,9 @@ void set_full_tm(struct tm * date)
   *date = *localtime(&t);
 }
 
-void print_service(Service line)
+void print_service(Service line, const char * format)
 {
-  char date_buffer[11];
-  strftime(date_buffer, 11, "%Y-%m-%d", &line.date);
-  printf("%s %s\n", date_buffer, line.description);
+  char date_buffer[12];
+  strftime(date_buffer, 12, format, &line.date); /*  %Y-%m-%d, %-d.%-m. */
+  printf("%11s %s\n", date_buffer, line.description);
 }
