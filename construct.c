@@ -112,3 +112,14 @@ int make_calendar(Service * calendar, int year)
   return day_index;
 }
 
+void find_month(Service * calendar, int mon)
+{
+  mon -= 1;
+  for (int day_index = 0; day_index < 58; day_index++)
+  {
+    if (calendar[day_index].date.tm_mon == mon)
+    {
+      print_service(calendar[day_index]);
+    }
+  }
+}

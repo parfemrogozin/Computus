@@ -17,4 +17,5 @@ typedef struct feast
 Service get_service(Feast * prototype, int year);
 Service get_regular(char * tide, time_t * time, int si);
 int make_calendar(Service * calendar, int year);
+void find_month(Service * calendar, int mon);
 #endif
