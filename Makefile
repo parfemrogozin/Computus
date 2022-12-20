@@ -8,7 +8,7 @@ ifeq ($(PREFIX),)
 	PREFIX := $$HOME
 endif
 
-all: CFLAGS += -g
+all: CFLAGS += -Og -ggdb
 all: $(SRCS)
 	$(CC) -o $(EXECUTABLE) $(CFLAGS) $(LDLIBS) $^
 

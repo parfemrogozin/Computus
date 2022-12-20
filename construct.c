@@ -125,3 +125,17 @@ void find_month(Service * calendar, int mon)
     }
   }
 }
+
+void find_next(Service * calendar, struct tm tm_now)
+{
+  int remaining_days = 7 - tm_now.tm_wday;
+  tm_now.tm_mday += remaining_days;
+  mktime(&tm_now);
+  for (int day_index = 0; day_index < 58; day_index++)
+  {
+    if ( (calendar[day_index].date.tm_mon ==  tm_now.tm_mon) &&  (calendar[day_index].date.tm_mday ==  tm_now.tm_mday))
+    {
+      print_service(calendar[day_index], "%Y-%m-%d");
+    }
+  }
+}

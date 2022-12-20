@@ -1,8 +1,8 @@
 #include <getopt.h>
+#include <stdbool.h>
+
 #include <stdio.h>
 #include <stdlib.h>
-
-
 
 #include "easter.h"
 #include "service.h"
@@ -15,15 +15,19 @@ int main(int argc, char **argv)
   int month = 0;
   int day_index = 0;
   int opt;
-  time_t t = time(NULL);
-  struct tm tm = *localtime(&t);
+  bool next = false;
+  time_t timestamp_now = time(NULL);
+  struct tm tm_now = *localtime(&timestamp_now);
 
-  while ((opt = getopt(argc, argv, ":m:")) != -1)
+  while ((opt = getopt(argc, argv, ":m:p")) != -1)
   {
     switch (opt)
     {
       case 'm':
         month =  atoi(optarg);
+        break;
+      case 'p':
+        next = true;
         break;
       case ':':
         printf("Použití: computus [rok] -%c <měsíc>\n", optopt);
@@ -41,7 +45,7 @@ int main(int argc, char **argv)
   }
   else
   {
-    year = tm.tm_year + 1900;
+    year = tm_now.tm_year + 1900;
   }
 
   if (year > 0)
@@ -56,6 +60,10 @@ int main(int argc, char **argv)
   if (month > 0)
   {
     find_month(calendar, month);
+  }
+  else if (next)
+  {
+    find_next(calendar, tm_now);
   }
   else
   {
